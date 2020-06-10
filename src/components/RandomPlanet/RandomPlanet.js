@@ -7,11 +7,6 @@ import ErrorComponent from '../ErrorComponent';
 
 export default class RandomPlanet extends React.Component{
 
-    constructor(){
-        super();
-        console.log('constructor');
-    }
-
     swapi = new SwapiService();
 
     state = {
@@ -21,14 +16,13 @@ export default class RandomPlanet extends React.Component{
     }
 
     componentDidMount() {
-        console.log('did mount');
         this.updatePlanet();
-        setInterval(this.updatePlanet, 2000);
+        this.interval = setInterval(this.updatePlanet, 5000);
     }
 
-    // componentWillUnmount() {
-    //     console.log('will unmount');
-    // }
+     componentWillUnmount() {
+         clearInterval(this.interval);
+     }
 
     onError = () => {
         this.setState({

@@ -17,8 +17,9 @@ export default class SwapiService{
       return response.results.map(this.transormPerson);
     }    
   
-    getPerson(id) {
-      return this.getData(`/people/${id}/`);
+    async getPerson(id) {
+      const person = await this.getData(`/people/${id}/`);
+      return this.transormPerson(person);
     }
 
     async getPlanet(id) {
@@ -46,7 +47,7 @@ export default class SwapiService{
         name: person.name,
         gender: person.gender,
         mass: person.mass,
-        homeworld: person.homeworld
+        birthDate: person.birth_year
       }
     }
     
