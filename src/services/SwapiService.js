@@ -12,9 +12,14 @@ export default class SwapiService{
       return await response.json();
     }
   
-    async getAllPeople() {
+    getAllPeople = async () => {
       const response = await this.getData('/people/');
       return response.results.map(this.transormPerson);
+    }    
+
+    getAllPlanets = async () => {
+      const response = await this.getData('/planets/');
+      return response.results.map(this.transormPlanet);
     }    
   
     async getPerson(id) {
@@ -31,7 +36,7 @@ export default class SwapiService{
       return item.url.match(/\/([0-9]*)\/$/)[1];
     };
 
-    transormPlanet(planet) {
+    transormPlanet = (planet) => {
       return {
         id: this.getId(planet),
         name: planet.name,

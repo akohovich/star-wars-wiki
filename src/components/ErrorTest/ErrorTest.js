@@ -7,7 +7,6 @@ export default class ErrorTest extends React.Component {
     };
 
     render() {
-        console.log('test error');
         if (this.state.error) {
             this.mytest.test = 'test';
         }
