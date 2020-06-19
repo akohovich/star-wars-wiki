@@ -1,20 +1,21 @@
 import React from 'react';
 
 import './Header.css';
+import {Link} from 'react-router-dom';
 
 const Header = () => {
     return (
         <div className="Header">
-            <h1>Star Wars Wiki</h1>
+            <h1><Link to="/">Star Wars Wiki</Link></h1>
             <ul className="d-flex main_nav">
                 <li>
-                    <a href="asdf">People</a>
+                    <Link to="/people">People</Link>
                 </li>
                 <li>
-                    <a href="asdf">Planets</a>
+                    <Link to="/planets">Planets</Link>
                 </li>
                 <li>
-                    <a href="asdf">Ships</a>
+                    <Link to="/ships">StarShips</Link>
                 </li>
             </ul>
 

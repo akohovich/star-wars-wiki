@@ -1,30 +1,21 @@
 import React from 'react';
 
 import './ItemsList.css';
-import Loader from '../Loader';
+import SwapiService from '../../services/SwapiService';
+import withData from '../helpers/withData';
 
-export default class ItemList extends React.Component {
+const ItemsList = (props) => {
 
-    state = {
-        item: null,
-    }
+    const {data, onItemClick, renderItem} = props;
 
-    componentDidMount() {
-        this.props.getData().then((item) => {
-            this.setState({
-                item
-            })
-        });
-    }
-
-    renderItems(arr){
+    const renderItems = (arr) => {
         return arr.map((item) => {
-            const text = this.props.renderItem(item);
+            const text = renderItem(item);
             return(
                 <li 
                     className="list-group-item"
                     key={item.id}
-                    onClick={() => this.props.onItemClick(item.id)}
+                    onClick={() => onItemClick(item.id)}
                 >
                     {text}
                 </li>
@@ -32,20 +23,15 @@ export default class ItemList extends React.Component {
         });
     }
 
-
-    render(){
-        const {item} = this.state;
-
-        if(!item){
-            return <Loader/>
-        }
-
-        const items = this.renderItems(item);
+        const items = renderItems(data);
 
         return(
             <ul className="ItemsList">
                 {items}
             </ul>
         );    
-    }
 }
+
+const {getAllPeople} = new SwapiService();
+
+export default withData(ItemsList, getAllPeople);

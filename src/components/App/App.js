@@ -7,9 +7,10 @@ import RandomPlanet from '../RandomPlanet';
 import ErrorTest from '../ErrorTest';
 import ErrorComponent from '../ErrorComponent';
 import PeoplePage from '../PeoplePage/PeoplePage';
+import PlanetPage from '../PlanetPage/PlanetPage';
 import SwapiService from '../../services/SwapiService';
-import ItemList from '../ItemsList';
-import DetailsInfo from '../DetailsInfo';
+import SwapiContext from '../SwapiServiceContext';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 export default class App extends React.Component {
 
@@ -35,26 +36,26 @@ export default class App extends React.Component {
             return <ErrorComponent/>
         }
         return (
-            <div className="App">
-                <Header />
-                {this.state.isRandomPlanet && <RandomPlanet />}
-                <button onClick={this.onTogglePlanet}>
-                    on/off planet
-                </button>
-                <ErrorTest/>
-                <PeoplePage/>
-                <div className="PeoplePage d-flex justify-content-between">
-                    <ItemList
-                        onItemClick={this.onPersonSelect}
-                        getData={this.swapi.getAllPlanets}
-                        renderItem={(item) => 
-                            `${item.name} (diameter ${item.diameter})`}
-                    />
-                     <DetailsInfo
-                         personId={this.state.selectedPerson}
-                     />
-                </div>
-            </div>
-        )    
+            <SwapiContext.Provider value={this.swapi}>
+                <Router>
+                    <div className="App">
+                        <Header />
+                        <RandomPlanet />
+                        <ErrorTest />
+                        <Route path="/" exact>
+                            <h3>Hello, my dear friend</h3>
+                        </Route>
+                        <Route path="/people">
+                            <h3>People</h3>
+                            <PeoplePage/>
+                        </Route>
+                        <Route path="/planets">
+                            <h3>Planets</h3>
+                            <PlanetPage/>
+                        </Route>
+                    </div>
+                </Router>
+            </SwapiContext.Provider>
+        )  
     }
 }
