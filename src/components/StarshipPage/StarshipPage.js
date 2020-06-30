@@ -1,19 +1,19 @@
 import React from 'react';
 
-import './PlanetPage.css'
+import './StarshipPage.css'
 
 import DetailsInfo from '../DetailsInfo';
 import ErrorComponent from '../ErrorComponent';
 import SwapiService from '../../services/SwapiService';
 import Row from '../Row';
-import PlanetsList from '../PlanetsList/PlanetsList';
+import StarshipsList from '../StarshipsList/StarshipsList';
 
-export default class PlanetPage extends React.Component {
+export default class StarshipPage extends React.Component {
 
     swapi = new SwapiService();
 
     state = {
-        selectedPlanet: null,
+        selectedStarship: null,
         error: false,
     }
 
@@ -21,9 +21,9 @@ export default class PlanetPage extends React.Component {
         this.setState({ error: true });
     }
 
-    onPlanetSelect = (id) => {
+    onStarshipSelect = (id) => {
         this.setState({
-            selectedPlanet: id
+            selectedStarship: id
         });
     }
 
@@ -33,28 +33,28 @@ export default class PlanetPage extends React.Component {
         }
 
         const itemsList = (
-            <PlanetsList
-                onItemClick={this.onPlanetSelect}
+            <StarshipsList
+                onItemClick={this.onStarshipSelect}
                 renderItem={(item) =>
                     `${item.name}
-                        (${item.diameter}km)`
+                        (${item.model})`
                 }
             />
         );
 
         const detailsInfo = (
             <DetailsInfo
-                itemId={this.state.selectedPlanet}
-                getData={this.swapi.getPlanet}
+                itemId={this.state.selectedStarship}
+                getData={this.swapi.getStarship}
                 info={
-                    ['diameter', 'population', 'gravity']
+                    ['starshipClass', 'length', 'passengers']
                 }
-                imgRef={`https://starwars-visualguide.com/assets/img/planets/`}
+                imgRef={`https://starwars-visualguide.com/assets/img/starships/`}
             />
         );
 
         return (
-            <div className="PlanetPage">
+            <div className="StarshipPage">
                <Row left={itemsList} right={detailsInfo} />
             </div>
         )

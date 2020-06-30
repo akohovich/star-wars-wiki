@@ -2,7 +2,7 @@ import React from 'react';
 
 import './DetailsInfo.css';
 
-import ErrorTest from '../ErrorTest';
+// import ErrorTest from '../ErrorTest';
 import SwapiContext from '../SwapiServiceContext';
 
 export default class DetailsInfo extends React.Component {
@@ -10,60 +10,68 @@ export default class DetailsInfo extends React.Component {
     static contextType = SwapiContext;
 
     state = {
-        person: null
+        item: null
     }
     
     componentDidMount() {
-        this.updatePerson();
+        this.updateItem();
     }
 
     componentDidUpdate(prevProps){
-        if (this.props.personId !== prevProps.personId) {
-            this.updatePerson();
+        if (this.props.itemId !== prevProps.itemId) {
+            this.updateItem();
         }
     }
 
-    updatePerson() {
-        const {personId} = this.props;
-        if(!personId){
+    updateItem() {
+        const {itemId, getData} = this.props;
+        if(!itemId){
             return;
         }
-        this.context.getPerson(personId).then((person) => {
-            this.setState({person});
+        // this.context.getItem(itemId).then((item) => {
+        //     this.setState({item});
+        // })
+        getData(itemId).then((item) => {
+            this.setState({item});
         })
     }
 
     render() {
 
-        if (!this.state.person){
-            return <p>please, select person</p>
+        const { item } = this.state;
+
+        if (!item){
+            return <p>please, select an item</p>
         }
 
-        const { id, name, mass, birthDate, gender } = this.state.person;
+        const { id, name } = item;
+        const { info, imgRef } = this.props;
+
+        const elements = info.map((key) => {
+            return (
+                <li key={key}>
+                    <span>{key} </span>
+                    <span>{item[key]}</span>
+                </li>
+            );
+        });
+
 
         return(
-                        <div className="DetailsInfo">
-                            <h3>{name}</h3>
-                            <div className="d-flex info_block">
-                                <img src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} alt="person"/>
-                                <ul className="detail_info_block">
-                                    <li>
-                                        <span>mass</span>
-                                        <span>{mass}</span>
-                                    </li>
-                                    <li>
-                                        <span>birth date</span>
-                                        <span>{birthDate}</span>
-                                    </li>
-                                    <li>
-                                        <span>gender</span>
-                                        <span>{gender}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <ErrorTest />
-                        </div>
-
+            <div className="DetailsInfo">
+                <h3>{name}</h3>
+                <div className="d-flex info_block">
+                    <img
+                        alt="item"
+                        src={imgRef + `${id}.jpg`}
+                        onError={e => { e.target.src = 'https://starwars-visualguide.com/assets/img/big-placeholder.jpg' }}
+                    />
+                    <ul className="detail_info_block">
+                        {elements}
+                    </ul>
+                </div>
+                {/* <ErrorTest /> */}
+            </div>
         );
 
     }

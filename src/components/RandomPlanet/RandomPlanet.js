@@ -103,7 +103,9 @@ const PlanetView = (props) => {
         <>
             <h3>{name}</h3>
             <div className="d-flex planet_block">
-                <img src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} alt="planet"/>
+                <img src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} alt="planet"
+                    onError={e => { e.target.src = 'https://starwars-visualguide.com/assets/img/big-placeholder.jpg' }}
+                />
                 <ul className="planet_info_block">
                     <li>
                         <span>diameter </span>
